@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = "com.browser-parse-app"
+    versionCode = "10"
+    version     = "1.0.0" >
+
+<!-- versionCode is optional and Android only -->
+
+  <name>Zero Log File Parser</name>
+
+  <description>
+      Decoder for Zero motorcycle MBB or BMS log files. Offline HTML decoder converts binary log files to viewable and downloadable text. Use Chrome or Firefox.
+  </description>
+
+  <author href="https://github.com/keithxemi" email="kt@ivyriver.net">
+      Keith Thomas
+  </author>
+
+</widget>
