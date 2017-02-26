@@ -33,7 +33,7 @@ body {
 	font-size: 16px;
 	font-family: sans-serif;
 	height: 35px;
-	width: 118px;
+	width: 100px;
 	display: inline-block;
 	background-color: #e8e8e8;
 	border: 2px solid;
@@ -45,24 +45,16 @@ input[type=file] {
 	display: none;
 }
 
-#down {
-	margin-left: 52px;
-	width: 120px;
-	height: 52px;
-	padding-left: 20px;
-	padding-right: 20px;
-	font-size: 16px;
-	display: inline-block;
-	background-color: #e8e8e8;
-	border: 2px solid;
-	border-top-color: white;
-	border-left-color: white;
-}
-
 #print {
 	background-color: #e8e8e8;
 	display: inline-block;
 	padding: 2px;
+}
+
+#container {
+	min-width: 310px; 
+	height: 400px; 
+	margin: 0 auto;
 }
 
 #parsed {
@@ -78,10 +70,4 @@ input[type=file] {
 #disclaim {
 	max-width: 600px;
 	margin: auto;
-}
-
-#screenshot {        
-	display:block;
-	margin-left:auto;
-	margin-right:auto;
 }

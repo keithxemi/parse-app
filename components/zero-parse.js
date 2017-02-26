@@ -12,13 +12,48 @@ License: MIT https://github.com/keithxemi/browser-parse/blob/master/LICENSE
 */
 
 /* jslint browser: true  */
-/*global saveAs, Blob, FileReader, DataView, Uint8Array, Uint16Array, Uint32Array */
+/*global Highcharts, Blob, FileReader, DataView, Uint8Array, Uint16Array, Uint32Array */
 
 (function () {
 	'use strict';
-	
+				
 	var logFileName,
-		parsedText;
+		parsedText,
+		chartData = [];
+	
+	function drawChart(data) {
+
+		Highcharts.chart('container', {
+			chart: {
+				zoomType: 'x'
+			},
+			title: {
+				text: 'Pack State of Charge while riding'
+			},
+			subtitle: {
+				text: document.ontouchstart === undefined ?
+						'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+			},
+			xAxis: {
+				type: 'datetime'
+			},
+			yAxis: {
+				title: {
+					text: 'PackSOC'
+				}
+			},
+			legend: {
+				enabled: false
+			},
+
+			series: [{
+				type: 'column',
+				name: 'SOC',
+				data: data
+			}]
+		});
+
+	}
 	
 	function dec(buf, type, offset, count) {
 		var dv = new DataView(buf);
@@ -376,6 +411,7 @@ License: MIT https://github.com/keithxemi/browser-parse/blob/master/LICENSE
 				'MotAmps:' + f.mc + ', BattAmps:' + f.bc + ', Mods: ' + m +
 				', MotTemp:' + f.mt + 'C, CtrlTemp:' + f.ct + 'C, AmbTemp:' +
 				f.at + 'C, MotRPM:' + f.rpm + ', Odo:' + f.odo + 'km';
+			chartData.push([timestamp * 1000, f.soc/101]);
 			return entry;
 		case 0x2d: // charging_status
 			switch (x[0xc]) {
@@ -643,6 +679,7 @@ License: MIT https://github.com/keithxemi/browser-parse/blob/master/LICENSE
 		}
 		
 		parsedText = '';
+		chartData = [];
 
 		if ((logType !== 'MBB') && (logType !== 'BMS')) {
 			logType = 'Unknown Type';
@@ -746,22 +783,13 @@ License: MIT https://github.com/keithxemi/browser-parse/blob/master/LICENSE
 				document.getElementById('print').innerHTML = 'Could not parse';
 				document.getElementById('parsed').innerHTML =
 					parseLog(evt.target.result);
+				drawChart(chartData);
 			} else {
 				document.getElementById('parsed').innerHTML = ' File error';
 			}
 		};
 		reader.readAsArrayBuffer(files[0]);
 	}
-	
-	function saveLog() {
-		var blob = new Blob([parsedText], {type: "text/plain;charset=utf-8"});
-		
-		if (parsedText === undefined) {
-			return;
-		}
-		saveAs(blob, logFileName);
-	}
 
 	document.getElementById('choose').addEventListener('change', readFile);
-	document.getElementById('down').addEventListener('click', saveLog);
 }());
